@@ -5,6 +5,11 @@
 package View;
 
 import Model.Cadastro;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -20,6 +25,28 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
     }
 
     Cadastro cad = new Cadastro();
+    
+    public void consultar(){
+        ResultSet tabela;
+        tabela = null;
+        
+        //CHAMAR O MÉTODO CONSULTAR
+        tabela = cad.consultar();
+
+        DefaultTableModel modelo = (DefaultTableModel) tblCadastroPaciente.getModel();
+        modelo.setNumRows(0);
+
+        try{
+            do{
+                modelo.addRow(new String[] {tabela.getString(2),tabela.getString(3), tabela.getString(4),tabela.getString(5)});
+            }
+            while(tabela.next());
+        }
+        catch(SQLException erro){
+            JOptionPane.showMessageDialog(null,"Erro preencher tabela" + erro);
+
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,7 +60,7 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -86,7 +113,7 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(102, 0, 0));
         jLabel2.setText("Nome Paciente:");
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        txtNome.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setForeground(new java.awt.Color(102, 0, 0));
         jLabel3.setText("Código Paciente");
@@ -173,7 +200,7 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
@@ -186,7 +213,7 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
@@ -343,11 +370,21 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtComplementoActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
+        cad.setNomePaciente(txtNome.getText());
+        cad.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        cad.setEndereco(txtEndereco.getText());
+        cad.setComplemento(txtComplemento.getText());
+        cad.setRg(txtRg.getText());
+        cad.setCpf(txtCpf.getText());
+        cad.setNascimento(txtNascimento.getText());
+        
+        cad.cadastrar();
+        
+        consultar();
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -411,13 +448,17 @@ public class frmCadastroPaciente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblCadastroPaciente;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtComplemento;
     private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JFormattedTextField txtNascimento;
+    private javax.swing.JTextField txtNome;
     private javax.swing.JFormattedTextField txtRg;
     // End of variables declaration//GEN-END:variables
+
+    private void consultar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

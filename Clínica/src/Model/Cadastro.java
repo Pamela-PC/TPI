@@ -90,7 +90,7 @@ public class Cadastro {
     }
     
     
-     public void excluir(){
+    public void excluir(){
         String sql;
         sql = "Delete FROM cadastroPaciente WHERE codigo=" +getCodigo()+ "";
         con.executeSQL(sql);
@@ -106,13 +106,13 @@ public class Cadastro {
         JOptionPane.showMessageDialog(null, "Registro Alterado com sucesso...");
     }
     
-    public ResultSet Limpar()
+    public ResultSet Consultar()
     {
-      
+        ResultSet tabela;
+        tabela = null;
+        
+        String sql= "Select * from cadastroPaciente";
+        tabela= con.RetornarResultset(sql);
+        return tabela;
     }
-    
-    
- 
-    
-    
-}
+  }
